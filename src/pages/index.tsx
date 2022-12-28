@@ -1,8 +1,10 @@
 import SEO from "../components/Global/SEO";
 import { Container, Wrapper } from "../styles";
 import { Slate, Editable, withReact, ReactEditor } from "slate-react";
-import { createEditor, BaseEditor, Transforms, Editor, Text } from "slate";
+import { createEditor, BaseEditor } from "slate";
 import { useCallback, useState } from "react";
+import { CustomEditor } from "../backend/customEditor";
+import { IconLetterT, IconBold, IconItalic, IconCode } from "@tabler/icons";
 
 type CustomElement = { type: string; children: CustomText[] };
 type CustomText = { text: string };
@@ -38,10 +40,46 @@ export default function Home() {
   }, []);
 
   return (
-    <>
+    <Wrapper>
       <SEO title="Rich-Text Editor" />
 
       <Slate editor={editor} value={initialValue}>
+        <>
+          <button
+            onMouseDown={(event: any) => {
+              event.preventDefault();
+              CustomEditor.toggleBoldMark(editor);
+            }}
+          >
+            <IconLetterT />
+          </button>
+          <button
+            onMouseDown={(event: any) => {
+              event.preventDefault();
+              CustomEditor.toggleBoldMark(editor);
+            }}
+          >
+            <IconBold />
+          </button>
+          <button
+            onMouseDown={(event: any) => {
+              event.preventDefault();
+              CustomEditor.toggleBoldMark(editor);
+            }}
+          >
+            <IconItalic />
+          </button>
+          <button
+            onMouseDown={(event: any) => {
+              event.preventDefault();
+              CustomEditor.toggleCodeBlock(editor);
+            }}
+          >
+            <IconCode />
+          </button>
+        </>
+
+        {/* Change by keyboard */}
         <Editable
           renderElement={renderElement}
           renderLeaf={renderLeaf}
@@ -53,33 +91,18 @@ export default function Home() {
             switch (event.key) {
               //Press ' to transform to code block.
               case "'":
-                const [match] = Editor.nodes(editor, {
-                  match: (n: any) => n.type === "code",
-                });
-
-                Transforms.setNodes(
-                  editor,
-                  { type: match ? "paragraph" : "code" },
-                  { match: (n) => Editor.isBlock(editor, n) }
-                );
-
+                CustomEditor.toggleCodeBlock(editor);
                 break;
 
               //Press b to transform to bold
               case "b":
-                Transforms.setNodes(
-                  editor,
-                  //@ts-ignore
-                  { bold: true },
-                  { match: (n) => Text.isText(n), split: true }
-                );
-
+                CustomEditor.toggleBoldMark(editor);
                 break;
             }
           }}
         />
       </Slate>
-    </>
+    </Wrapper>
   );
 }
 

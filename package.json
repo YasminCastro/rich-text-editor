@@ -15,6 +15,7 @@
     "@mantine/hooks": "^5.9.5",
     "@mantine/next": "^5.9.5",
     "@next/font": "13.1.1",
+    "@tabler/icons": "^1.118.0",
     "eslint": "8.30.0",
     "eslint-config-next": "13.1.1",
     "next": "13.1.1",
@@ -23,7 +24,8 @@
     "slate": "^0.87.0",
     "slate-react": "^0.88.0",
     "styled-components": "^5.3.6",
-    "typescript": "4.9.4"
+    "typescript": "4.9.4",
+    "@types/styled-components": "^5.1.26"
   },
   "resolutions": {
     "styled-components": "^5"
@@ -32,7 +34,6 @@
     "@types/node": "18.11.18",
     "@types/react": "18.0.26",
     "@types/react-dom": "18.0.10",
-    "@types/slate": "^0.47.11",
-    "@types/styled-components": "^5.1.26"
+    "@types/slate": "^0.47.11"
   }
 }
