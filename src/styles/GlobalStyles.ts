@@ -30,14 +30,12 @@ export default createGlobalStyle`
     padding: 0;
   }
 
-  body.modal-open{
-    overflow: hidden;
-  }
-
   button {
     cursor: pointer;
-	border: none;
-	padding: 0;
+	  border: none;
+	  padding: 0;
+    margin: 0; 
+    background: transparent;
   }
 
 

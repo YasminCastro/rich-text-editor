@@ -9,6 +9,14 @@ export const Wrapper = styled.div`
 
 export const Container = styled.div`
   background: #ffffff;
-  width: 50%;
-  border: 1px solid red;
+  margin: auto;
+  margin-top: 58px;
+  max-width: 42em;
+  min-height: 16em;
+  box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.2);
+`;
+
+export const Toolbar = styled.div`
+  border-bottom: 2px solid rgb(238, 238, 238);
+  padding: 10px;
 `;

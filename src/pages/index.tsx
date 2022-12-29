@@ -1,5 +1,5 @@
 import SEO from "../components/Global/SEO";
-import { Container, Wrapper } from "../styles";
+import { Container, Toolbar, Wrapper } from "../styles";
 import { Slate, Editable, withReact, ReactEditor } from "slate-react";
 import { createEditor, BaseEditor } from "slate";
 import { useCallback, useState } from "react";
@@ -26,6 +26,8 @@ const initialValue = [
 
 export default function Home() {
   const [editor] = useState(() => withReact(createEditor()));
+  const iconsSize = 18;
+  const iconColor = "rgb(204, 204, 204)";
 
   const renderElement = useCallback((props: any) => {
     if (props.element.type === "code") {
@@ -40,69 +42,64 @@ export default function Home() {
   }, []);
 
   return (
-    <Wrapper>
+    <>
       <SEO title="Rich-Text Editor" />
+      <Wrapper>
+        <Container>
+          <Slate editor={editor} value={initialValue}>
+            <Toolbar>
+              <button
+                onMouseDown={(event: any) => {
+                  event.preventDefault();
+                  CustomEditor.toggleBoldMark(editor);
+                }}
+              >
+                <IconBold size={iconsSize} color={iconColor} />
+              </button>
+              <button
+                onMouseDown={(event: any) => {
+                  event.preventDefault();
+                  CustomEditor.toggleBoldMark(editor);
+                }}
+              >
+                <IconItalic size={iconsSize} color={iconColor} />
+              </button>
+              <button
+                onMouseDown={(event: any) => {
+                  event.preventDefault();
+                  CustomEditor.toggleCodeBlock(editor);
+                }}
+              >
+                <IconCode size={iconsSize} color={iconColor} />
+              </button>
+            </Toolbar>
 
-      <Slate editor={editor} value={initialValue}>
-        <>
-          <button
-            onMouseDown={(event: any) => {
-              event.preventDefault();
-              CustomEditor.toggleBoldMark(editor);
-            }}
-          >
-            <IconLetterT />
-          </button>
-          <button
-            onMouseDown={(event: any) => {
-              event.preventDefault();
-              CustomEditor.toggleBoldMark(editor);
-            }}
-          >
-            <IconBold />
-          </button>
-          <button
-            onMouseDown={(event: any) => {
-              event.preventDefault();
-              CustomEditor.toggleBoldMark(editor);
-            }}
-          >
-            <IconItalic />
-          </button>
-          <button
-            onMouseDown={(event: any) => {
-              event.preventDefault();
-              CustomEditor.toggleCodeBlock(editor);
-            }}
-          >
-            <IconCode />
-          </button>
-        </>
+            {/* Change by keyboard */}
+            <Editable
+              renderElement={renderElement}
+              renderLeaf={renderLeaf}
+              onKeyDown={(event) => {
+                if (!event.ctrlKey) return;
 
-        {/* Change by keyboard */}
-        <Editable
-          renderElement={renderElement}
-          renderLeaf={renderLeaf}
-          onKeyDown={(event) => {
-            if (!event.ctrlKey) return;
+                event.preventDefault();
 
-            event.preventDefault();
+                switch (event.key) {
+                  //Press ' to transform to code block.
+                  case "'":
+                    CustomEditor.toggleCodeBlock(editor);
+                    break;
 
-            switch (event.key) {
-              //Press ' to transform to code block.
-              case "'":
-                CustomEditor.toggleCodeBlock(editor);
-                break;
-
-              //Press b to transform to bold
-              case "b":
-                CustomEditor.toggleBoldMark(editor);
-                break;
-            }
-          }}
-        />
-      </Slate>
-    </Wrapper>
+                  //Press b to transform to bold
+                  case "b":
+                    CustomEditor.toggleBoldMark(editor);
+                    break;
+                }
+              }}
+            />
+          </Slate>
+        </Container>
+      </Wrapper>
+    </>
   );
 }
 
