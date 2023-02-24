@@ -4,7 +4,7 @@ import { Slate, Editable, withReact, ReactEditor } from "slate-react";
 import { createEditor, BaseEditor } from "slate";
 import { useCallback, useState } from "react";
 import { CustomEditor } from "../backend/customEditor";
-import { IconLetterT, IconBold, IconItalic, IconCode } from "@tabler/icons";
+import { IconBold, IconItalic, IconCode, IconUnderline } from "@tabler/icons";
 
 type CustomElement = { type: string; children: CustomText[] };
 type CustomText = { text: string };
@@ -20,22 +20,17 @@ declare module "slate" {
 const initialValue = [
   {
     type: "paragraph",
-    children: [{ text: "A line of text in a paragraph." }],
+    children: [{ text: "" }],
   },
 ];
 
 export default function Home() {
   const [editor] = useState(() => withReact(createEditor()));
   const iconsSize = 18;
-  const iconColor = "rgb(204, 204, 204)";
+  const iconLighterColor = "rgb(204, 204, 204)";
+  const iconDarkerColor = "#000000";
 
-  const renderElement = useCallback((props: any) => {
-    if (props.element.type === "code") {
-      return <CodeElement {...props} />;
-    } else {
-      return <DefaultElement {...props} />;
-    }
-  }, []);
+  const renderElement = useCallback((props: any) => <Element {...props} />, []);
 
   const renderLeaf = useCallback((props: any) => {
     return <Leaf {...props} />;
@@ -54,15 +49,23 @@ export default function Home() {
                   CustomEditor.toggleBoldMark(editor);
                 }}
               >
-                <IconBold size={iconsSize} color={iconColor} />
+                <IconBold size={iconsSize} color={iconLighterColor} />
               </button>
               <button
                 onMouseDown={(event: any) => {
                   event.preventDefault();
-                  CustomEditor.toggleBoldMark(editor);
+                  CustomEditor.toggleItalicMark(editor);
                 }}
               >
-                <IconItalic size={iconsSize} color={iconColor} />
+                <IconItalic size={iconsSize} color={iconLighterColor} />
+              </button>
+              <button
+                onMouseDown={(event: any) => {
+                  event.preventDefault();
+                  CustomEditor.toggleUnderlineMark(editor);
+                }}
+              >
+                <IconUnderline size={iconsSize} color={iconLighterColor} />
               </button>
               <button
                 onMouseDown={(event: any) => {
@@ -70,7 +73,7 @@ export default function Home() {
                   CustomEditor.toggleCodeBlock(editor);
                 }}
               >
-                <IconCode size={iconsSize} color={iconColor} />
+                <IconCode size={iconsSize} color={iconLighterColor} />
               </button>
             </Toolbar>
 
@@ -78,6 +81,8 @@ export default function Home() {
             <Editable
               renderElement={renderElement}
               renderLeaf={renderLeaf}
+              placeholder="Escreva aqui..."
+              style={{ padding: 16 }}
               onKeyDown={(event) => {
                 if (!event.ctrlKey) return;
 
@@ -93,6 +98,16 @@ export default function Home() {
                   case "b":
                     CustomEditor.toggleBoldMark(editor);
                     break;
+
+                  //Press i to transform to italic
+                  case "b":
+                    CustomEditor.toggleItalicMark(editor);
+                    break;
+
+                  //Press i to transform to italic
+                  case "u":
+                    CustomEditor.toggleUnderlineMark(editor);
+                    break;
                 }
               }}
             />
@@ -103,25 +118,70 @@ export default function Home() {
   );
 }
 
-const CodeElement = (props: any) => {
-  return (
-    <pre {...props.attributes}>
-      <code>{props.children}</code>
-    </pre>
-  );
+const Element = ({ attributes, children, element }: any) => {
+  const style = { textAlign: element.align };
+  switch (element.type) {
+    case "block-quote":
+      return (
+        <blockquote style={style} {...attributes}>
+          {children}
+        </blockquote>
+      );
+    case "bulleted-list":
+      return (
+        <ul style={style} {...attributes}>
+          {children}
+        </ul>
+      );
+    case "heading-one":
+      return (
+        <h1 style={style} {...attributes}>
+          {children}
+        </h1>
+      );
+    case "heading-two":
+      return (
+        <h2 style={style} {...attributes}>
+          {children}
+        </h2>
+      );
+    case "list-item":
+      return (
+        <li style={style} {...attributes}>
+          {children}
+        </li>
+      );
+    case "numbered-list":
+      return (
+        <ol style={style} {...attributes}>
+          {children}
+        </ol>
+      );
+    default:
+      return (
+        <p style={style} {...attributes}>
+          {children}
+        </p>
+      );
+  }
 };
 
-const DefaultElement = (props: any) => {
-  return <p {...props.attributes}>{props.children}</p>;
-};
+const Leaf = ({ attributes, children, leaf }: any) => {
+  if (leaf.bold) {
+    children = <strong>{children}</strong>;
+  }
 
-const Leaf = (props: any) => {
-  return (
-    <span
-      {...props.attributes}
-      style={{ fontWeight: props.leaf.bold ? "bold" : "normal" }}
-    >
-      {props.children}
-    </span>
-  );
+  if (leaf.code) {
+    children = <code>{children}</code>;
+  }
+
+  if (leaf.italic) {
+    children = <em>{children}</em>;
+  }
+
+  if (leaf.underline) {
+    children = <u>{children}</u>;
+  }
+
+  return <span {...attributes}>{children}</span>;
 };

@@ -18,5 +18,8 @@ export const Container = styled.div`
 
 export const Toolbar = styled.div`
   border-bottom: 2px solid rgb(238, 238, 238);
-  padding: 10px;
+  padding: 16px 16px 10px 16px;
+  button {
+    margin-right: 12px;
+  }
 `;
