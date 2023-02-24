@@ -1,10 +1,24 @@
 import SEO from "../components/Global/SEO";
 import { Container, Toolbar, Wrapper } from "../styles";
 import { Slate, Editable, withReact, ReactEditor } from "slate-react";
-import { createEditor, BaseEditor } from "slate";
-import { useCallback, useState } from "react";
+import {
+  createEditor,
+  BaseEditor,
+  Editor,
+  Transforms,
+  Element as SlateElement,
+} from "slate";
+import { useCallback, useMemo, useState } from "react";
 import { CustomEditor } from "../backend/customEditor";
-import { IconBold, IconItalic, IconCode, IconUnderline } from "@tabler/icons";
+import {
+  IconBold,
+  IconItalic,
+  IconCode,
+  IconUnderline,
+  IconH1,
+} from "@tabler/icons";
+import { withHistory } from "slate-history";
+import BlockButton from "../components/Pages/RichText/Buttons/BlockButton";
 
 type CustomElement = { type: string; children: CustomText[] };
 type CustomText = { text: string };
@@ -25,7 +39,7 @@ const initialValue = [
 ];
 
 export default function Home() {
-  const [editor] = useState(() => withReact(createEditor()));
+  const editor = useMemo(() => withHistory(withReact(createEditor())), []);
   const iconsSize = 18;
   const iconLighterColor = "rgb(204, 204, 204)";
   const iconDarkerColor = "#000000";
@@ -43,8 +57,13 @@ export default function Home() {
         <Container>
           <Slate editor={editor} value={initialValue}>
             <Toolbar>
+              <BlockButton editor={editor} format="heading-one" />
+              <BlockButton editor={editor} format="heading-two" />
+              <BlockButton editor={editor} format="block-quote" />
+              <BlockButton editor={editor} format="bulleted-list" />
+
               <button
-                onMouseDown={(event: any) => {
+                onClick={(event: any) => {
                   event.preventDefault();
                   CustomEditor.toggleBoldMark(editor);
                 }}
@@ -100,7 +119,7 @@ export default function Home() {
                     break;
 
                   //Press i to transform to italic
-                  case "b":
+                  case "i":
                     CustomEditor.toggleItalicMark(editor);
                     break;
 
