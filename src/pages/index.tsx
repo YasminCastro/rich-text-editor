@@ -47,12 +47,6 @@ export default function Home() {
             <Toolbar>
               <BlockButton editor={editor} format="heading-one" />
               <BlockButton editor={editor} format="heading-two" />
-              <BlockButton editor={editor} format="bulleted-list" />
-              <BlockButton editor={editor} format="numbered-list" />
-              <BlockButton editor={editor} format="left" />
-              <BlockButton editor={editor} format="center" />
-              <BlockButton editor={editor} format="right" />
-              <BlockButton editor={editor} format="justify" />
 
               <button
                 onClick={(event: any) => {
@@ -70,6 +64,7 @@ export default function Home() {
               >
                 <IconItalic size={iconsSize} color={iconLighterColor} />
               </button>
+
               <button
                 onMouseDown={(event: any) => {
                   event.preventDefault();
@@ -78,6 +73,7 @@ export default function Home() {
               >
                 <IconUnderline size={iconsSize} color={iconLighterColor} />
               </button>
+
               <button
                 onMouseDown={(event: any) => {
                   event.preventDefault();
@@ -86,6 +82,13 @@ export default function Home() {
               >
                 <IconCode size={iconsSize} color={iconLighterColor} />
               </button>
+
+              <BlockButton editor={editor} format="bulleted-list" />
+              <BlockButton editor={editor} format="numbered-list" />
+              <BlockButton editor={editor} format="left" />
+              <BlockButton editor={editor} format="center" />
+              <BlockButton editor={editor} format="right" />
+              <BlockButton editor={editor} format="justify" />
             </Toolbar>
 
             {/* Change by keyboard */}

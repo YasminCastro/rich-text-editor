@@ -5,8 +5,6 @@ interface ISEO {
   description?: string;
 }
 
-const formatKeywords = (keywords: string[]) => keywords.join(", ");
-
 const SEO = ({ title, description }: ISEO): JSX.Element => {
   const seo = {
     title: `${title} · YC`,

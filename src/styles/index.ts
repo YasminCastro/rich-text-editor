@@ -22,7 +22,7 @@ export const Container = styled.div`
   code {
     background-color: #eee;
     border-radius: 3px;
-    font-family: monospace;
+    font-family: Courier, monospace;
     padding: 0 3px;
   }
 `;
