@@ -2,14 +2,14 @@ import { Editor, Transforms, Element as SlateElement, BaseEditor } from "slate";
 import { HistoryEditor } from "slate-history";
 import { ReactEditor } from "slate-react";
 import {
-  IconBold,
-  IconItalic,
-  IconCode,
-  IconUnderline,
   IconH1,
   IconH2,
-  IconBlockquote,
   IconList,
+  IconListNumbers,
+  IconAlignLeft,
+  IconAlignCenter,
+  IconAlignRight,
+  IconAlignJustified,
 } from "@tabler/icons";
 const iconLighterColor = "rgb(204, 204, 204)";
 const iconDarkerColor = "#000000";
@@ -24,7 +24,7 @@ const BlockButton = ({ editor, format }: blockButton) => {
 
   return (
     <button
-      onMouseDown={(event: any) => {
+      onClick={(event: any) => {
         event.preventDefault();
         toggleBlock({ editor, format });
       }}
@@ -36,11 +36,23 @@ const BlockButton = ({ editor, format }: blockButton) => {
         <IconH2 size={iconsSize} color={iconLighterColor} />
       )}
 
-      {format === "block-quote" && (
-        <IconBlockquote size={iconsSize} color={iconLighterColor} />
-      )}
       {format === "bulleted-list" && (
         <IconList size={iconsSize} color={iconLighterColor} />
+      )}
+      {format === "numbered-list" && (
+        <IconListNumbers size={iconsSize} color={iconLighterColor} />
+      )}
+      {format === "left" && (
+        <IconAlignLeft size={iconsSize} color={iconLighterColor} />
+      )}
+      {format === "right" && (
+        <IconAlignRight size={iconsSize} color={iconLighterColor} />
+      )}
+      {format === "center" && (
+        <IconAlignCenter size={iconsSize} color={iconLighterColor} />
+      )}
+      {format === "justify" && (
+        <IconAlignJustified size={iconsSize} color={iconLighterColor} />
       )}
     </button>
   );

@@ -14,6 +14,17 @@ export const Container = styled.div`
   max-width: 42em;
   min-height: 16em;
   box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.2);
+
+  li {
+    margin-left: 18px;
+  }
+
+  code {
+    background-color: #eee;
+    border-radius: 3px;
+    font-family: monospace;
+    padding: 0 3px;
+  }
 `;
 
 export const Toolbar = styled.div`

@@ -1,22 +1,10 @@
 import SEO from "../components/Global/SEO";
 import { Container, Toolbar, Wrapper } from "../styles";
 import { Slate, Editable, withReact, ReactEditor } from "slate-react";
-import {
-  createEditor,
-  BaseEditor,
-  Editor,
-  Transforms,
-  Element as SlateElement,
-} from "slate";
-import { useCallback, useMemo, useState } from "react";
+import { createEditor, BaseEditor } from "slate";
+import { useCallback, useMemo } from "react";
 import { CustomEditor } from "../backend/customEditor";
-import {
-  IconBold,
-  IconItalic,
-  IconCode,
-  IconUnderline,
-  IconH1,
-} from "@tabler/icons";
+import { IconBold, IconItalic, IconCode, IconUnderline } from "@tabler/icons";
 import { withHistory } from "slate-history";
 import BlockButton from "../components/Pages/RichText/Buttons/BlockButton";
 
@@ -59,8 +47,12 @@ export default function Home() {
             <Toolbar>
               <BlockButton editor={editor} format="heading-one" />
               <BlockButton editor={editor} format="heading-two" />
-              <BlockButton editor={editor} format="block-quote" />
               <BlockButton editor={editor} format="bulleted-list" />
+              <BlockButton editor={editor} format="numbered-list" />
+              <BlockButton editor={editor} format="left" />
+              <BlockButton editor={editor} format="center" />
+              <BlockButton editor={editor} format="right" />
+              <BlockButton editor={editor} format="justify" />
 
               <button
                 onClick={(event: any) => {
@@ -140,12 +132,6 @@ export default function Home() {
 const Element = ({ attributes, children, element }: any) => {
   const style = { textAlign: element.align };
   switch (element.type) {
-    case "block-quote":
-      return (
-        <blockquote style={style} {...attributes}>
-          {children}
-        </blockquote>
-      );
     case "bulleted-list":
       return (
         <ul style={style} {...attributes}>
@@ -175,6 +161,12 @@ const Element = ({ attributes, children, element }: any) => {
         <ol style={style} {...attributes}>
           {children}
         </ol>
+      );
+    case "code":
+      return (
+        <code style={style} {...attributes}>
+          {children}
+        </code>
       );
     default:
       return (
